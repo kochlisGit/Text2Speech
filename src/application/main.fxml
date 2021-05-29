@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import org.controlsfx.glyphfont.Glyph?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.CustomMenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.ToggleGroup?>
+<BorderPane style="-fx-background-color: #e0e0e0;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+    <top>
+        <VBox>
+            <HBox prefHeight="40" spacing="10" alignment="CENTER" style="-fx-background-color: #263238;"
+                  onMouseDragged="#titleBarMouseDragged" onMousePressed="#titleBarMousePressed" onMouseClicked="#titleBarMouseClicked">
+                <padding>
+                    <Insets left="10" right="10" top="2"/>
+                </padding>
+
+                <Glyph fontFamily="FontAwesome" icon="TERMINAL" textFill="white" fontSize="24"/>
+                <Region HBox.hgrow="ALWAYS" maxWidth="Infinity"> </Region>
+                <Label text="Text2Speech" textFill="white">
+                    <font>
+                        <Font name="Cooper Black" size="18"/>
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS" maxWidth="Infinity"> </Region>
+                <Glyph fontFamily="FontAwesome" icon="MINUS" textFill="#00b8d4" onMouseClicked="#minBtnClicked" onMouseEntered="#titleBarBtnHover" onMouseExited="#nodeHoverReset"/>
+                <Glyph fontFamily="FontAwesome" icon="CIRCLE" textFill="#00c853" onMouseClicked="#maxBtnClicked" onMouseEntered="#titleBarBtnHover" onMouseExited="#nodeHoverReset"/>
+                <Glyph fontFamily="FontAwesome" icon="CLOSE" textFill="#ff1744" onMouseClicked="#exitBtnClicked" onMouseEntered="#titleBarBtnHover" onMouseExited="#nodeHoverReset"/>
+            </HBox>
+            <MenuBar prefHeight="25" BorderPane.alignment="CENTER_LEFT" style="-fx-font-size: 12;">
+                <Menu text="File">
+                    <MenuItem text="New" accelerator="Shortcut+N" onAction="#newDocument"/>
+                    <MenuItem text="Load..." accelerator="Shortcut+L" onAction="#loadDocument"/>
+                    <MenuItem text="Save" accelerator="Shortcut+S" onAction="#saveDocument"/>
+                    <MenuItem text="Save As..." onAction="#saveDocumentAs"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="Exit" onAction="#exitBtnClicked"/>
+                </Menu>
+                <Menu text="View">
+                    <fx:define>
+                        <ToggleGroup fx:id="fontFamilyGroup"/>
+                    </fx:define>
+
+                    <Menu text="Font Size">
+                        <CustomMenuItem text="Font Size">
+                            <content>
+                                <Slider fx:id="fontSizeSlider" min="8" max="32" value="12" minorTickCount="1" majorTickUnit="4" snapToTicks="true" showTickMarks="true" showTickLabels="true" onMouseDragged="#changeFont"/>
+                            </content>
+                        </CustomMenuItem>
+                    </Menu>
+                    <Menu text="Font Family">
+                        <RadioMenuItem text="Arial" selected="true" toggleGroup="$fontFamilyGroup" onAction="#changeFont"/>
+                        <RadioMenuItem text="Arial Bold" toggleGroup="$fontFamilyGroup" onAction="#changeFont"/>
+                        <RadioMenuItem text="Arial Italic" toggleGroup="$fontFamilyGroup" onAction="#changeFont"/>
+                        <RadioMenuItem text="Sans Serif" toggleGroup="$fontFamilyGroup" onAction="#changeFont"/>
+                        <RadioMenuItem text="Calibri" toggleGroup="$fontFamilyGroup" onAction="#changeFont"/>
+                        <RadioMenuItem text="Georgia" toggleGroup="$fontFamilyGroup" onAction="#changeFont"/>
+                    </Menu>
+                </Menu>
+                <Menu text="Recording" onShowing="#checkRecordingOptions">
+                    <RadioMenuItem fx:id="recordingRadioItem" text="Recording" accelerator="Shortcut+R" onAction="#enableRecording"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem fx:id="convertSpeechItem" text="Convert to Speech" disable="true" accelerator="Shortcut+T" onAction="#convertTextToSpeech"/>
+                    <MenuItem fx:id="replaySequenceItem" text="Replay Sequence" disable="true" accelerator="Shortcut+P" onAction="#replaySequence"/>
+                </Menu>
+                <Menu text="Help">
+                    <MenuItem text="Open Guide" accelerator="Shortcut+H" onAction="#openGuide"/>
+                </Menu>
+            </MenuBar>
+        </VBox>
+    </top>
+    <center>
+        <TextArea fx:id="textArea" onKeyPressed="#changeDetected" onMouseClicked="#updateStatusBar"/>
+    </center>
+    <bottom>
+        <HBox prefHeight="30" spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #e0e0e0;">
+            <padding>
+                <Insets left="10" right="10"/>
+            </padding>
+
+            <Label fx:id="cursorLabel" text="Row: 1, Col: 1" style="-fx-font-size: 12;"/>
+            <Separator orientation="VERTICAL"/>
+            <Label fx:id="fontSizeLabel" text="Font Size: 12" style="-fx-font-size: 12;"/>
+            <Separator orientation="VERTICAL"/>
+            <Label fx:id="fontFamilyLabel" text="Font Family: Arial" style="-fx-font-size: 12;"/>
+            <Separator orientation="VERTICAL"/>
+            <Label fx:id="recordingLabel" text="Recording: OFF" style="-fx-font-size: 12;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
